@@ -32,8 +32,10 @@ class NovaImpersonatingBanner extends Component
 
     public function stopImpersonating()
     {
+        $userId = auth()->id();
+
         app(ImpersonatesUsers::class)->stopImpersonating(request(), Auth::guard('web'), User::class);
 
-        return redirect(config('nova-impersonating-banner.redirect_url', request()->header('Referer')));
+        return redirect(config('nova-impersonating-banner.redirect_url', request()->header('Referer'))) . '/' . $userId;
     }
 }
